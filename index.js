@@ -39,10 +39,36 @@ async function run() {
       res.send(result);
     })
 
+    // get specific user
+    app.get('/users/:id', async (req,res)=>{
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)}
+      const user = await userCollection.findOne(query)
+      res.send(user);
+
+    })
+
     // post = send data in server to store
     app.post('/users', async (req, res) => {
       const user = req.body;
       const result = await userCollection.insertOne(user);
+      res.send(result);
+    })
+
+    // put = if have then update, if not then make it
+    app.put("/users/:id", async(req,res)=>{
+      const id = req.params.id;
+      const user = req.body;
+      const filter = {_id: new ObjectId(id)};
+      const options = {upsert: true};
+      const updatedUser = {
+        $set:{
+          name: user.name,
+          email: user.email,
+          number: user.number
+        }
+      }
+      const result = await userCollection.updateOne(filter, updatedUser, options)
       res.send(result);
     })
 
