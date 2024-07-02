@@ -27,7 +27,6 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
     
-    // .....................................................
 
     const userCollection = client.db("usersDB").collection("users");
 
@@ -39,7 +38,7 @@ async function run() {
       res.send(result);
     })
 
-    // get specific user
+    // get specific user -> for update in CRUD
     app.get('/users/:id', async (req,res)=>{
       const id = req.params.id;
       const query = {_id: new ObjectId(id)}
@@ -81,9 +80,6 @@ async function run() {
       res.send(result);
     })
 
-
-
-    // .....................................................
     
     
     // Send a ping to confirm a successful connection
@@ -98,10 +94,10 @@ run().catch(console.dir);
 
 
 app.get('/', (req, res) => {
-  res.send('users management server is running');
+  res.send('crud server is running');
 })
 
 app.listen(port, () => {
-  console.log(`Server is running on PORT: ${port}`);
+  console.log(`crud is running on PORT: ${port}`);
 })
 
